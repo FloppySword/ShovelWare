@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dx872tet7lcj0"
-path="res://.godot/imported/Destructible Objects Sprite Sheet.png-33499b125e299c9f46f0e5f7073046f6.ctex"
+uid="uid://dsm06uefow42r"
+path="res://.godot/imported/Yarn.png-fe4905b577db8f5a4cb159b7253ead7b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Scenes/MicroGames/MicroGameAssets/CatScratch/2D/Destructible Objects Sprite Sheet.png"
-dest_files=["res://.godot/imported/Destructible Objects Sprite Sheet.png-33499b125e299c9f46f0e5f7073046f6.ctex"]
+source_file="res://Scenes/MicroGames/MicroGameAssets/CatScratch/2D/Yarn.png"
+dest_files=["res://.godot/imported/Yarn.png-fe4905b577db8f5a4cb159b7253ead7b.ctex"]
 
 [params]
 

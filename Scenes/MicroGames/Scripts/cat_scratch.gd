@@ -17,7 +17,7 @@ const TURN_STEP = 0.05
 @onready var cat_ray = $Cat/RayCast2D
 @onready var laser = $Laser
 @onready var pointer = $Pointer
-@onready var crates = $Crates
+@onready var yarn_balls = $YarnBalls
 
 #State variable(s)
 var cat_chasing = false
@@ -28,16 +28,20 @@ var target_pos = Vector2.ZERO
 var box_to_break = null
 
 func _ready():
-	boilerplate_ready()
+	#boilerplate_ready()
 	
 	#DEBUG STUFF, COMMENT OUT WHEN NOT DEBUGGING
 	#AND UNCOMMENT ABOVE boilerplate_ready()
-	#_set_difficulty("hard")
-	#$DebugCamera2DDisable.enabled = true
-	#laser.get_node("LaserParticles2D").emitting = true
-	#pointer.get_node("PointerParticles2D").emitting = true
+	_set_difficulty("easy")
+	$DebugCamera2DDisable.enabled = true
+	laser.get_node("LaserParticles2D").emitting = true
+	pointer.get_node("PointerParticles2D").emitting = true
 	
 func _set_difficulty(dif):
+	dif = dif + str(randi_range(1,3))
+	
+	#remove some things from the loadouts animation player
+	#things that should be randomized
 	$Loadouts.play(dif)
 	
 func _start():
@@ -46,10 +50,10 @@ func _start():
 	#Set laser and point on.
 	laser.get_node("LaserParticles2D").emitting = true
 	pointer.get_node("PointerParticles2D").emitting = true
-	for crate in $Crates.get_children():
-		#Connect crate's "break" animation to increase_score function
-		crate.get_node("AnimationPlayer").animation_started.connect(Callable(self,"increase_score"))
-		crate.get_node("AnimationPlayer").play("idle")
+	for yarn in yarn_balls.get_children():
+		#Connect yarn's "break" animation to increase_score function
+		yarn.get_node("AnimationPlayer").animation_started.connect(Callable(self,"increase_score"))
+		yarn.get_node("AnimationPlayer").play("idle")
 	$CatSound.play()
 	
 func increase_score(anim):
@@ -72,7 +76,7 @@ func _physics_process(_delta):
 	
 	if cat_chasing:
 		if target:
-			#update target position (either laser or crate)
+			#update target position (either laser or yarn)
 			target_pos = target.global_position
 		else:
 			#if no target, cat cannot be chasing
@@ -102,12 +106,12 @@ func _physics_process(_delta):
 		var r = cat.global_rotation
 		cat.global_rotation = lerp_angle(r, angle, turn_step)
 		
-		#check if a crate is detected
+		#check if a yarn is detected
 		if cat_ray.is_colliding():
 			var collider = cat_ray.get_collider()
-			if "Crate" in collider.name:
+			if "Yarn" in collider.name:
 				if collider.get_node("AnimationPlayer").current_animation != "break":
-					#change target from laser to crate/box
+					#change target from laser to yarn
 					target = collider
 					box_to_break = collider
 					#set attacking state on. will prevent chasing movement during attack.
